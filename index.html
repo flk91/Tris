@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <title>Tris</title>
+
+    <meta charset="utf-8" />
+
+    <!-- 
+      Il meta tag viewport specifica come si deve comportare la pagina web con schermi di varie dimensioni.
+      In questo caso viene specificato che la pagina, essendo ottimizzata per schermi mobile, non va 
+      zoomata, ma il contenuto deve riempire lo spazio disponibile andando a capo dove serve.
+    -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+    <!-- Il file di manifest specifica alcuni dettagli sul comportamento del sito come app -->
+    <link rel="manifest" href="manifest.json" />
+
+    <!-- Icone per dispositivi Apple nelle varie risoluzioni -->
+    <link rel="apple-touch-icon" sizes="57x57" href="icons/apple-icon-57x57.png" />
+    <link rel="apple-touch-icon" sizes="60x60" href="icons/apple-icon-60x60.png" />
+    <link rel="apple-touch-icon" sizes="72x72" href="icons/apple-icon-72x72.png" />
+    <link rel="apple-touch-icon" sizes="76x76" href="icons/apple-icon-76x76.png" />
+    <link rel="apple-touch-icon" sizes="114x114" href="icons/apple-icon-114x114.png" />
+    <link rel="apple-touch-icon" sizes="120x120" href="icons/apple-icon-120x120.png" />
+    <link rel="apple-touch-icon" sizes="144x144" href="icons/apple-icon-144x144.png" />
+    <link rel="apple-touch-icon" sizes="152x152" href="icons/apple-icon-152x152.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-icon-180x180.png" />
+
+    <!-- Icone per dispositivi Android -->
+    <link rel="icon" type="image/png" sizes="192x192" href="icons/android-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="96x96" href="icons/favicon-96x96.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16x16.png" />
+
+    <meta name="msapplication-TileColor" content="#ffffff" />
+    <meta name="msapplication-TileImage" content="icons/ms-icon-144x144.png" />
+    <meta name="theme-color" content="#ffffff" />
+    <!-- fine dichiarazioni icone dell'app -->
+
+    <!-- FontAwesome è una libreria di icone vettoriali (classi css fa-...) -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+    <!-- 
+      Bootstrap è un framework per app responsive, sviluppato da Twitter. 
+      Grazie ad esso è possibile velocizzare la scrittura di codice perché include classi CSS che risolvono
+      problemi comuni quando si sviluppa un'app per vari formati di schermo.
+      Oltre al CSS vanno inclusi i file JavaScript che si trovano prima della chiusura del body
+    -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+
+    <!-- Foglio di stile specifico del gioco -->
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="display-4 text-center">
+        Tris! <a href="#aboutDialog" data-toggle="modal" style="font-size: 24px" title="Informazioni su..."><i class="fa fa-question-circle" aria-hidden="true"></i></a>
+      </h1>
+      <!-- 
+        row: rappresenta una riga di contenuti.
+        my-2 : m=margine;  y=sopra e sotto;  2: numero arbitrario da 1 a 4
+      -->
+      <div class="row my-2">
+        <div class="col">
+          <label for="gioc1" class="sr-only">Giocatore 1</label>
+          <input type="text" name="gioc1" id="gioc1" placeholder="Giocatore 1" class="form-control" />
+        </div>
+        <div class="col">
+          <label for="tempo" class="sr-only"></label>
+          <input type="text" name="tempo" id="tempo" placeholder="tempo" readonly="readonly" class="form-control" />
+        </div>
+        <div class="col">
+          <label for="gioc2" class="sr-only">Giocatore 2</label>
+          <input type="text" name="gioc2" id="gioc2" placeholder="Giocatore 2" class="form-control" />
+        </div>
+      </div>
+      <div class="row my-2">
+        <div class="col-sm-4"></div>
+        <div class="col-xs-12 col-sm-4">
+          <button class="btn btn-primary btn-block" id="cmd_nuova_partita">
+            <i class="fa fa-play" aria-hidden="true"></i> Nuova partita
+          </button>
+          <button class="btn btn-danger btn-block" hidden="hidden" id="cmd_termina_partita">
+            <i class="fa fa-stop" aria-hidden="true"></i> Termina partita
+          </button>
+        </div>
+        <div class="col-sm-4">
+          <label for="gioca_pc" class="btn btn-secondary btn-block">
+            <input type="checkbox" name="gioca_pc" id="gioca_pc" /> Gioca contro il PC
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="container mt-4">
+      <table id="campo">
+        <tr>
+          <td><button data-r="0" data-c="0" disabled="disabled">&nbsp;</button></td>
+          <td><button data-r="0" data-c="1" disabled="disabled">&nbsp;</button></td>
+          <td><button data-r="0" data-c="2" disabled="disabled">&nbsp;</button></td>
+        </tr>
+        <tr>
+          <td><button data-r="1" data-c="0" disabled="disabled">&nbsp;</button></td>
+          <td><button data-r="1" data-c="1" disabled="disabled">&nbsp;</button></td>
+          <td><button data-r="1" data-c="2" disabled="disabled">&nbsp;</button></td>
+        </tr>
+        <tr>
+          <td><button data-r="2" data-c="0" disabled="disabled">&nbsp;</button></td>
+          <td><button data-r="2" data-c="1" disabled="disabled">&nbsp;</button></td>
+          <td><button data-r="2" data-c="2" disabled="disabled">&nbsp;</button></td>
+        </tr>
+      </table>
+    </div>
+
+    <!--  
+    Finestra di dialogo "informazioni su..."
+    Codice di bootstrap
+    -->
+    <div
+      class="modal fade"
+      id="aboutDialog"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="modelTitleId"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Informazioni su...</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body text-center">
+            <div>
+              <img src="./icons/android-icon-72x72.png" alt="Tris!" />
+            </div>
+            <h3>Tris!</h3>
+            <p class="lead">Il popolare gioco di carta e matita!</p>
+            <p>
+              Versione 1.1<br />
+              &copy; 2021 Federico Flecchia
+            </p>
+            <p></p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Chiudi</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 
+      jQuery è una libreria di JavaScript che facilita la scrittura di codice. 
+      Noi non la usiamo, ma serve affinché Bootstrap funzioni.
+      jQuery ha vissuto una grande popolarità negli anni passati, prima che JavaScript implementasse 
+      nativamente alcune sue funzioni. Ad esempio, il QuerySelector è stato ispirato proprio dalla libreria 
+      jQuery.
+      Ancora oggi jQuery è molto diffusa.
+     -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+
+    <!--
+      Popper.js è una libreria richiesta da bootstrap per far funzionare i "tooltip"
+     -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+
+    <!--
+      Ecco infine il file JavaScript richiersto da Bootstrap per funzionare.
+    -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <!--
+      E il nostro file di codice JavaScript
+    -->
+    <script src="tris.js"></script>
+  </body>
+</html>

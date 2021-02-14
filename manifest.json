@@ -1,0 +1,9 @@
+{
+  "name": "Tris",
+  "short_name": "Tris",
+  "theme_color": "#f38c21",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "scope": "/",
+  "start_url": "/"
+}
