@@ -1,3 +1,6 @@
+//Uso const (costante) per i riferimenti ai controlli utente (caselle, bottoni, ...) perché non cambiano.
+//Avrei potuto anche usare var, ma const è più sicuro perché impedisce di riassegnare dati allo stesso nome di variabile.
+
 /** 
  * Casella nome primo giocatore
  * @type {HTMLInputElement} 
@@ -107,8 +110,6 @@ function segnatempo() {
     }
 }
 
-
-
 /**
  * Gestisce il clic su una delle caselle
  * @this {HTMLButtonElement}
@@ -128,8 +129,8 @@ function gioca(ev) {
     this.disabled = true;
 
     celle_disponibili--;
-    if(celle_disponibili==0) {
-        vince=0;
+    if (celle_disponibili == 0) {
+        vince = 0;
     }
     controlla();
 
@@ -285,7 +286,6 @@ function nuova_partita(ev) {
     //mostro il pulsante di fine partita
     cmd_termina_partita.hidden = false;
     cmd_nuova_partita.hidden = true;
-
 }
 
 /**
@@ -298,7 +298,7 @@ function mostra_turno() {
     if (turno == 1) {
         gioc1.style.backgroundColor = 'yellow';
         gioc2.style.backgroundColor = 'white';
-    } else {
+    } else if (turno==2) {
         gioc1.style.backgroundColor = 'white';
         gioc2.style.backgroundColor = 'yellow';
     }
@@ -322,23 +322,10 @@ function termina_partita() {
     //mostro il pulsante di nuova partita
     cmd_termina_partita.hidden = true;
     cmd_nuova_partita.hidden = false;
-
-    
 }
-
-window.setInterval(segnatempo, 1000);
-cmd_nuova_partita.addEventListener('click', nuova_partita);
-cmd_termina_partita.addEventListener('click', termina_partita);
-
-
-//assegno la funzione gioca all'evento clic sui bottoni del campo
-for (var i = 0; i < celle.length; i++) {
-    celle[i].addEventListener('click', gioca);
-}
-
 
 /**
- * 
+ * Gestisce la modifica del valore della checkbox per giocare contro il PC
  * @this {HTMLInputElement}
  */
 function gioca_pc_onchange() {
@@ -352,5 +339,24 @@ function gioca_pc_onchange() {
 
 }
 
+/*
+richiamo la funzione segnatempo ogni 1000 millisecondi.
+window.setInterval(...) restituisce come risultato un numero chiamato handle (lett. "maniglia").
+Tale numero può essere passato alla funzione window.clearInterval(handle) per annullare l'esecuzione programmata.
+*/
+var intervallo_segnatempo = window.setInterval(segnatempo, 1000);
+
+//Assegno gli event listener ai controlli
+cmd_nuova_partita.addEventListener('click', nuova_partita);
+cmd_termina_partita.addEventListener('click', termina_partita);
 gioca_pc.addEventListener('change', gioca_pc_onchange);
+
+//assegno la funzione gioca all'evento clic sui bottoni del campo
+for (var i = 0; i < celle.length; i++) {
+    celle[i].addEventListener('click', gioca);
+}
+
+
+
+
 
